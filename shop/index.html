@@ -14,11 +14,11 @@
         <a href="#">MeShop.</a>
       </div>
       <div class="nav-items">
-        <a href="">Home</a>
-        <a href="/login">Login</a>
-        <a href="/signup">Signup</a>
-        <a href="/cart">My Cart</a>
-        <a href="./profile/index.html" id="profile">Profile</a>
+        <a href="#">Home</a>
+        <a href="#">Login</a>
+        <a href="#">Signup</a>
+        <a href="../cart/index.html">My Cart</a>
+        <a href="../profile/index.html" id="profile">Profile</a>
       </div>
     </nav>
 
@@ -84,21 +84,21 @@
         </section>
         <section>
           <title>Price Range</title>
-          <ul>
+          <ul id="priceRange">
             <li>
-              <input id="0-25" type="checkbox" name="prange" />
+              <input id="0-25" type="checkbox"  value="25" name="prange" />
               <label for="0-25">$0 to $25</label>
             </li>
             <li>
-              <input id="25-50" type="checkbox" name="prange" />
+              <input id="25-50" type="checkbox" value="50" name="prange" />
               <label for="25-50">$25 to $50</label>
             </li>
             <li>
-              <input id="50-100" type="checkbox" name="prange" />
+              <input id="50-100" type="checkbox" value="100" name="prange" />
               <label for="50-100">$50 to $100</label>
             </li>
             <li>
-              <input id="100on" type="checkbox" name="prange" />
+              <input id="100on" type="checkbox" value="101" name="prange" />
               <label for="100on">$100 onwards</label>
             </li>
           </ul>
@@ -114,6 +114,7 @@
           <div class="filter filter-jewelry">Jewellery</div>
           <div class="filter filter-elect">Electronics</div>
         </div>
+        <div id="allElemnt" class="items"></div>
         <section>
           <title>Men's Clothing</title>
           <div class="items mens-item">

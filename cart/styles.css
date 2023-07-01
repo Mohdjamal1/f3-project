@@ -148,8 +148,10 @@ h1{
 .checkout-btn{
     background-color: white;
     color: black;
-   
-    
+    cursor: pointer;
+    border: none;
+    height: 40px;
+    font-size: 20px;
 }
 .checkout-btn-cont{
     width: 80%;

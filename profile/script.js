@@ -1,9 +1,8 @@
 // Write your script here
-if(!localStorage.getItem("currentuser")){
+if(!sessionStorage.getItem("currentuser")){
+  window.location.href  ="../login/index.html";
     alert("you need to login or signup first");
-     setTimeout(()=>{
-      window.location.href  ="../index.html";
-     },1000);
+    
 }
 
   
@@ -23,10 +22,10 @@ if(!localStorage.getItem("currentuser")){
   let errmsg2 = document.querySelector("#err-msg2");
   
 
-  let currentuser = JSON.parse(localStorage.getItem("currentuser"));
+  let currentuser = JSON.parse(sessionStorage.getItem("currentuser"));
   fnameinp.value =currentuser.firstname;
   lnameinp.value = currentuser.lastname;
-
+  // oldpassinp.value=currentuser.password;
 
   let profileheader = document.querySelector(".pro-hdr");
 
@@ -61,14 +60,14 @@ if(!localStorage.getItem("currentuser")){
        localStorage.setItem("users", JSON.stringify(usersarr));
 
        currentuser.token  = generatetoken();
-       localStorage.setItem("currentuser", JSON.stringify(currentuser));
-
+       sessionStorage.setItem("currentuser", JSON.stringify(currentuser));
+       profileheader.innerHTML =`My Profile (${currentuser.firstname} ${currentuser.lastname})`;
   });
 
 
   changepassbtn.addEventListener("click", ()=>{
     
-          if(oldpassinp.value == "" || newpassinp.value == ""||  cnfnewpassinp.value ==""){    
+      if(oldpassinp.value.trim() == "" || newpassinp.value.trim() == ""||  cnfnewpassinp.value.trim() ==""){    
        errmsg2.innerText  = "Error : All the fields are mandatory";
        errmsg2.style.color = "#FF4F4F";
        errmsg2.style.display = "inline-block";
@@ -89,8 +88,6 @@ if(!localStorage.getItem("currentuser")){
       return;
      }
 
-
-
      let usersarr = JSON.parse(localStorage.getItem("users"));
      console.log(usersarr);
 
@@ -107,12 +104,14 @@ if(!localStorage.getItem("currentuser")){
 
 
           localStorage.setItem("users", JSON.stringify(usersarr));
-          localStorage.setItem("currentuser", JSON.stringify(currentuser));
+          sessionStorage.setItem("currentuser", JSON.stringify(currentuser));
    
           errmsg2.innerText  = "Password changed successfully";
           errmsg2.style.color = "#7ECD71";
           errmsg2.style.display = "inline-block";
-          
+          oldpassinp.value = "";
+          newpassinp.value = "";
+          cnfnewpassinp.value = "";
           return;
         }
      }
@@ -126,13 +125,13 @@ if(!localStorage.getItem("currentuser")){
 
 
   logoutbtn.addEventListener("click", ()=>{
-    localStorage.removeItem("currentuser");
+    sessionStorage.removeItem("currentuser");
     localStorage.removeItem("cartproducts");
     localStorage.removeItem("products");
       
     alert("Redirecting you to index page...");
     setTimeout(()=>{
-     window.location.href  ="../index.html";
+     window.location.href  ="../login/index.html";
     },1000);
      
   });

@@ -9,18 +9,19 @@ let filterWomen = document.querySelector('.filter-women');
 let filterJewelry = document.querySelector('.filter-jewelry');
 let filterElect = document.querySelector('.filter-elect');
 let allItem = document.querySelector('.all');
+let myDiv = document.getElementById('allElemnt');
 
-if(!localStorage.getItem("currentuser")){
+if(!sessionStorage.getItem("currentuser")){
+  window.location.href  ="../login/index.html";
   alert("you need to signup or login first to access products");
-   setTimeout(()=>{
-    window.location.href  ="../index.html";
-   },1000);
 }
+   
 
 
 
 let products =  JSON.parse(localStorage.getItem("products")) || [];
 let cartproducts =  JSON.parse (localStorage.getItem("cartproducts") ) || [];
+let currentProd = [];
 
 // let prodcont = document.querySelector(".product-container");
 let filters = document.querySelectorAll(".filter");
@@ -41,7 +42,7 @@ console.log(filters);
       //
       data = json;
       all();
-      console.log(data);
+      // console.log(data[0].price);
 
       allItem.addEventListener('click',()=>{  
         all();
@@ -63,15 +64,18 @@ console.log(filters);
 
       filterWomen.addEventListener('click',()=>{
         filterItem();
-        mensItems.parentElement.classList.add('abc');
-        Jewellery.parentElement.classList.add('abc');
-        electronics.parentElement.classList.add('abc');
+        let box = [mensItems,Jewellery,electronics];
+        box.forEach(item =>{
+          item.parentElement.classList.add('abc');
+        })
+        
         womensItems.parentElement.classList.remove('abc');
-        filterMan.classList.remove('active');
         filterWomen.classList.add('active');
-        filterJewelry.classList.remove('active');
-        filterElect.classList.remove('active');
-        allItem.classList.remove('active');
+
+        let filterArr = [filterMan,filterJewelry,filterElect,allItem];
+        filterArr.forEach(item =>{
+          item.classList.remove('active');
+        })
         womenClothing();
       })
 
@@ -138,7 +142,7 @@ console.log(filters);
           });
         }
 //making dynamic product 
-function product(element,e){
+function product(element,div){
           const id = element.id;
           const title = element.title;
           const description = element.description;
@@ -164,24 +168,88 @@ function product(element,e){
                 <div class="circle" style="background-color: #203d3e"></div>
               </div>
             </div>
-            <div class="row">Rating:${rate}</div>
+            <div class="row">Rating:${ratingstars(rate)}</div>
             </div>
-            <button id="addBtn-${product.id}" onclick="addtocartfunc(event)">Add to Cart</button>`;
-            e.appendChild(div2);
+            <button id="addBtn-${id}" onclick="addtocartfunc(event)">Add to Cart</button>`;
+            div.appendChild(div2);
 };
 
 function filterItem() {
+  myDiv.innerHTML='';
   mensItems.innerHTML='';
   womensItems.innerHTML='';
   Jewellery.innerHTML='';
   electronics.innerHTML='';
 }
 
+document.getElementById('filter-item').addEventListener('click',()=>{
+  filterItem();
+  priceFilter();
+})
+function priceFilter(){
+  let priceArr = [];
+  let checkboxes = document.getElementById('priceRange').querySelectorAll('input[type="checkbox"]:checked');
+  // console.log(checkboxes[0].value);
+  if(checkboxes.length !== 0 ){
+    checkboxes.forEach(item =>{
+      priceArr.push(parseInt(item.value));
+    });
+  }
+  // filterItem();
+  for(let i=0; i< priceArr.length; i++){
+    getPriceRange(priceArr[i]);
+  }
+ 
+} 
+function getPriceRange(price){
+  if(price <=25 && price > 0){
+    data.filter(element => {
+      if(element.price <= 25 && element.price > 0){
+            product(element,myDiv);
+          }
+        });
+  }
+  else if(price > 25 && price <= 50){
+    data.filter(element => {
+      if(element.price > 25 && element.price <= 50){
+            product(element,myDiv);
+          }
+        });
+  }
+  else if(price > 50 && price <= 100){
+    data.filter(element => {
+      if(element.price > 50 && element.price <= 100){
+            product(element,myDiv);
+          }
+        });
+  }
+  else if(price > 100){
+    data.filter(element => {
+      if(element.price > 100){
+            product(element,myDiv);
+          }
+        });
+  }
+}  
+  
+  
+
+//Rating stars
+function ratingstars(rating) {
+  rating = Math.round(rating);
+  let str = "";
+  for (let i = 0; i < rating; i++) {
+    str += "⭐";
+  }
+  return str;
+}
+
+//ADD to Cart
 function addtocartfunc(event){
 
   let str = event.target.innerText;
   let id = Number (event.target.getAttribute('id').split('-')[1]);
-  console.log(id);
+  // console.log(id);
 
   if(str=="Add to Cart"){
       event.target.innerText = "Added"
@@ -189,6 +257,7 @@ function addtocartfunc(event){
       for(let product of products){
           if(product.id == id){
               cartproducts.push(product);
+              // console.log(cartproducts);
               break;
           }
       }
@@ -202,24 +271,21 @@ function addtocartfunc(event){
               cartproducts.splice(i, 1);
           }
       }
-
   }
-  
  localStorage.setItem("cartproducts", JSON.stringify(cartproducts));
-
-  console.log(cartproducts);
-
+  // console.log(cartproducts);
 }
 
 function all() {
-  mensItems.parentElement.classList.remove('abc');
-  womensItems.parentElement.classList.remove('abc');
-  Jewellery.parentElement.classList.remove('abc');
-  electronics.parentElement.classList.remove('abc');
-  filterMan.classList.remove('active');
-  filterWomen.classList.remove('active');
-  filterJewelry.classList.remove('active');
-  filterElect.classList.remove('active');
+  let classArr = document.querySelectorAll('.abc');
+  classArr.forEach(item =>{
+    item.classList.remove('abc');
+  });
+ 
+  let classArr2 = document.querySelectorAll('.active');
+  classArr2.forEach(item =>{
+    item.classList.remove('active');
+  });
   allItem.classList.add('active');
   filterItem();
   menClothing();

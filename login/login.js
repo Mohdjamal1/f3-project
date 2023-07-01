@@ -13,7 +13,7 @@ let errmsg = document.querySelector("#errmsg");
 loginbtn.addEventListener("click", (e)=>{
     e.preventDefault();
  
-    if(emailinp.value == "" || passinp.value == "" ){    
+    if(emailinp.value.trim() === "" || passinp.value.trim() === "" ){    
       errmsg.innerText  = "Error : All the fields are mandatory";
       errmsg.style.color = "#FF4F4F";
       errmsg.style.display = "inline-block";
@@ -38,32 +38,34 @@ loginbtn.addEventListener("click", (e)=>{
            if(userobj.email == emailinp.value && userobj.password == passinp.value){
  
               userobj.token = generatetoken();                 
-               localStorage.setItem("currentuser",  JSON.stringify (userobj));
+               sessionStorage.setItem("currentuser",  JSON.stringify (userobj));
  
-               errmsg.innerText  = "Successfully Signed Up!";
+               errmsg.innerText  = "Successfully Login!";
                errmsg.style.color = "#7ECD71";
                errmsg.style.display = "inline-block";
  
                  setTimeout(()=>{
-                  window.location.href  ="/shop/index.html";
+                  window.location.href  ="../shop/index.html";
                  },1000);
           
                return;
            }
          }
- 
- 
          errmsg.innerText  = `${emailinp.value} is not available or wrong password entered`;
          errmsg.style.color = "#FF4F4F";
          errmsg.style.display = "inline-block";
          return;
- 
- 
     }
- 
-           
- 
  });
+ document.getElementById('homeLink').addEventListener('click',(e)=>{
+  e.preventDefault();
+  if(sessionStorage.getItem('currentuser')){
+    window.location.href = '../shop/index.html';
+  }
+  else{
+    alert('please Enter your Email and Password');
+  }
+ })
  
  
  function generatetoken(){

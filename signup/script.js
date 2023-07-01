@@ -9,14 +9,14 @@ let Signup = document.getElementById('Signup-btn');
 Signup.addEventListener("click", (e)=>{
     e.preventDefault();
  
-    if(fnameinp.value == "" || lnameinp.value == ""||  emailinp.value =="" || passinp.value =="" || cnfpassinp.value ==""){    
+    if(fnameinp.value.trim() === "" || lnameinp.value.trim() === ""||  emailinp.value.trim() ==="" || passinp.value.trim() =="" || cnfpassinp.value.trim() ==""){    
       errmsg.innerText  = "Error : All the fields are mandatory";
       errmsg.style.color = "#FF4F4F";
       errmsg.style.display = "inline-block";
       return;
     }
  
-    if(passinp.value != cnfpassinp.value){
+    if(passinp.value.trim() !== cnfpassinp.value.trim()){
      errmsg.innerText  = "Password not matching";
      errmsg.style.color = "#FF4F4F";
      errmsg.style.display = "inline-block";
@@ -64,7 +64,7 @@ Signup.addEventListener("click", (e)=>{
     }
  
      user.token = generatetoken();
-    localStorage.setItem("currentuser", JSON.stringify(user));
+    sessionStorage.setItem("currentuser", JSON.stringify(user));
    
     errmsg.innerText  = "Successfully Signed Up!";
     errmsg.style.color = "#7ECD71";
@@ -72,7 +72,7 @@ Signup.addEventListener("click", (e)=>{
   
  
     setTimeout(()=>{
-     window.location.href  ="/shop/index.html";
+     window.location.href  ='../shop/index.html';
     },1000);
  
        

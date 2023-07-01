@@ -145,6 +145,7 @@ main-content .active {
 }
 
 main-content section {
+  
   margin-top: 1.2rem;
 }
 
@@ -154,18 +155,24 @@ main-content section title {
 }
 
 main-content .items {
-  display: flex;
-  width: auto;
-  overflow-x: scroll;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  overflow:auto;
   padding: 1rem 0;
   gap: 1rem;
 }
+#allElemnt{
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  overflow:auto;
+  padding: 1rem 0;
+  gap: 1rem;
+}  
 
 main-content .items .item {
   display: flex;
   flex-flow: column wrap;
   border: 1px solid black;
-  width: 23%;
   justify-content: space-between;
 }
 
